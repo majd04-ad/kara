@@ -35,7 +35,7 @@ Kirigami.ScrollablePage {
     property alias cfg_activeTemplate: activeTemplate.text
     property alias cfg_allowLabelRotate: allowLabelRotate.checked
 
-    property string substituteText: '\n<b>Replacements:</b>\n%d - Desktop number\n%name - Desktop name\n%roman - Roman numerals'
+    property string substituteText: i18n('\n<b>Replacements:</b>\n%d - Desktop number\n%name - Desktop name\n%roman - Roman numerals')
 
     Kirigami.FormLayout {
         anchors.fill: parent
@@ -43,24 +43,24 @@ Kirigami.ScrollablePage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Layout Settings"
+            Kirigami.FormData.label: i18n("Layout Settings")
         }
         Common.PixelSlider {
             id: spacing
-            Kirigami.FormData.label: "Spacing:"
+            Kirigami.FormData.label: i18n("Spacing:")
             from: 0
             to: 20
         }
         Common.PixelDimensions {
             id: pillDimen
             from: 1
-            Kirigami.FormData.label: "Inactive:"
+            Kirigami.FormData.label: i18n("Inactive:")
             visible: cfg_type == 0
         }
         Common.PixelDimensions {
             id: activePillDimen
             from: 1
-            Kirigami.FormData.label: "Active:"
+            Kirigami.FormData.label: i18n("Active:")
             visible: cfg_type == 0
         }
         PC3.Slider {
@@ -69,11 +69,11 @@ Kirigami.ScrollablePage {
             to: 5
             stepSize: 0.5
             visible: cfg_type == 0
-            Kirigami.FormData.label: "Pill radius:"
+            Kirigami.FormData.label: i18n("Pill radius:")
         }
         Common.PixelSlider {
             visible: cfg_type > 0
-            Kirigami.FormData.label: "Fixed length:"
+            Kirigami.FormData.label: i18n("Fixed length:")
             id: fixedLen
             from: 1
             to: 150
@@ -81,30 +81,30 @@ Kirigami.ScrollablePage {
         PC3.CheckBox {
             visible: cfg_type == 1
             id: allowLabelRotate
-            Kirigami.FormData.label: "Rotate Label for vertical panels:"
+            Kirigami.FormData.label: i18n("Rotate label for vertical panels:")
         }
 
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Indicator Settings"
+            Kirigami.FormData.label: i18n("Indicator Settings")
         }
         RowLayout {
             id: type
-            Kirigami.FormData.label: "Indicator Style:"
+            Kirigami.FormData.label: i18n("Indicator style:")
             property int style
             PC3.RadioButton {
-                text: "Pills"
+                text: i18n("Pills")
                 checked: type.style == 0
                 onCheckedChanged: if(checked) type.style = 0
             }
             PC3.RadioButton {
-                text: "Text"
+                text: i18n("Text")
                 checked: type.style == 1
                 onCheckedChanged: if(checked) type.style = 1
             }
             PC3.RadioButton {
-                text: "Icons"
+                text: i18n("Icons")
                 checked: type.style == 2
                 onCheckedChanged: if(checked) type.style = 2
             }
@@ -112,107 +112,107 @@ Kirigami.ScrollablePage {
 
         PC3.CheckBox {
             id: showOnlyActiveWorkspaces
-            Kirigami.FormData.label: "Show only workspaces with windows:"
+            Kirigami.FormData.label: i18n("Show only workspaces with windows:")
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Label source:"
+            Kirigami.FormData.label: i18n("Label source:")
             visible: cfg_type == 1
             QQC2.ComboBox {
                 id: labelSource
-                model: ["Desktop number","Desktop name",
-                "Custom template","Relative templates",
-                "Pre-defined labels","Roman numerals",
-                "Hindu-Arabic numerals","Chinese numerals"]
+                model: [i18n("Desktop number"), i18n("Desktop name"),
+                i18n("Custom template"), i18n("Relative templates"),
+                i18n("Pre-defined labels"), i18n("Roman numerals"),
+                i18n("Hindu-Arabic numerals"), i18n("Chinese numerals")]
             }
             Common.InfoButton {
-                txt: "Choose how workspace labels are generated."
+                txt: i18n("Choose how workspace labels are generated.")
             }
         }
         RowLayout {
-            Kirigami.FormData.label: "Custom template:"
+            Kirigami.FormData.label: i18n("Custom template:")
             visible: cfg_type == 1 && cfg_labelSource == 2
             PC3.TextField {
                 id: template
             }
             Common.InfoButton {
-                txt: "Use one template for every workspace. Replacements are listed below."
+                txt: i18n("Use one template for every workspace. Replacements are listed below.")
             }
         }
         PC3.TextField {
             id: beforeTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "Before template:"
+            Kirigami.FormData.label: i18n("Before template:")
         }
         PC3.TextField {
             id: activeTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "Active template:"
+            Kirigami.FormData.label: i18n("Active template:")
         }
         PC3.TextField {
             id: afterTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "After template:"
+            Kirigami.FormData.label: i18n("After template:")
         }
         RowLayout {
-            Kirigami.FormData.label: "Pre-defined labels:"
+            Kirigami.FormData.label: i18n("Pre-defined labels:")
             visible: cfg_type == 1 && cfg_labelSource == 4
             PC3.TextArea {
                 id: customLabels
-                placeholderText: "One konqi\nTwo konqis\nThree konqis"
+                placeholderText: i18n("One konqi\nTwo konqis\nThree konqis")
             }
             Common.InfoButton {
-                txt: "Enter one label per workspace, in order. Missing or empty entries use the extra label."
+                txt: i18n("Enter one label per workspace, in order. Missing or empty entries use the extra label.")
             }
         }
         RowLayout {
-            Kirigami.FormData.label: "Extra label:"
+            Kirigami.FormData.label: i18n("Extra label:")
             visible: cfg_type == 1 && cfg_labelSource == 4
             PC3.TextField {
                 id: extraCustomLabel
-                placeholderText: "D%d"
+                placeholderText: i18n("D%d")
             }
             Common.InfoButton {
-                txt: "Fallback label for workspaces without a predefined label."
+                txt: i18n("Fallback label for workspaces without a predefined label.")
             }
         }
         PC3.Label {
             visible: cfg_type == 1 && (cfg_labelSource == 4
             || cfg_labelSource == 3 || cfg_labelSource == 2)
-            Kirigami.FormData.label: "Replacements for templates:"
+            Kirigami.FormData.label: i18n("Replacements for templates:")
             Kirigami.FormData.labelAlignment: Qt.AlignTop
-            text: "<b>%d</b>: Desktop Number<br>
-            <b>%name</b>: Desktop Name<br>
-            <b>%roman</b>: Roman Numerals<br>
-            <b>%hindu</b>: Hindu-Arabic Numerals<br>
-            <b>%chinese</b>: Chinese/Mandarin Numerals"
+            text: i18n("<b>%d</b>: Desktop number<br>
+            <b>%name</b>: Desktop name<br>
+            <b>%roman</b>: Roman numerals<br>
+            <b>%hindu</b>: Hindu-Arabic numerals<br>
+            <b>%chinese</b>: Chinese/Mandarin numerals")
         }
 
 
 
 
         RowLayout {
-            Kirigami.FormData.label: "Custom icons:"
+            Kirigami.FormData.label: i18n("Custom icons:")
             visible: cfg_type == 2
             PC3.TextArea {
                 id: customIcons
-                placeholderText: "format-text-code\ninternet-services\nmusic-note-16th"
+                placeholderText: i18n("format-text-code\ninternet-services\nmusic-note-16th")
             }
             Common.InfoButton {
-                txt: 'Use an icon explorer like <b>Cuttlefish</b> to look for icon IDs.\n'+
+                txt: i18n('Use an icon explorer like <b>Cuttlefish</b> to look for icon IDs.\n'+
                 'First icon goes to the first desktop and so on.\n'+
-                'If an icon name is wrong, it will fallback to the extra icon.'
+                'If an icon name is wrong, it will fallback to the extra icon.')
             }
         }
         RowLayout {
-            Kirigami.FormData.label: "Extra icon:"
+            Kirigami.FormData.label: i18n("Extra icon:")
             visible: cfg_type == 2
             PC3.TextField {
                 id: extraCustomIcon
-                placeholderText: "desktop-symbolic"
+                placeholderText: i18n("desktop-symbolic")
             }
             Common.InfoButton {
-                txt: `This icon will be shown when the desktop IDs you entered are less than open desktops.`
+                txt: i18n("This icon will be shown when the desktop IDs you entered are less than open desktops.")
             }
         }
         //For Custom Text Type-----------------------------------------
@@ -220,16 +220,16 @@ Kirigami.ScrollablePage {
         // Highlight Settings
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Highlight Settings"
+            Kirigami.FormData.label: i18n("Highlight Settings")
         }
         RowLayout {
-            Kirigami.FormData.label: "Highlight style:"
+            Kirigami.FormData.label: i18n("Highlight style:")
             QQC2.ComboBox {
                 id: hType
-                model: ["None","Line","Square","Full","Full with Line"]
+                model: [i18n("None"), i18n("Line"), i18n("Square"), i18n("Full"), i18n("Full with Line")]
             }
             Common.InfoButton {
-                txt: "Controls how the active workspace is highlighted."
+                txt: i18n("Controls how the active workspace is highlighted.")
             }
         }
     }

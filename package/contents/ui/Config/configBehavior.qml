@@ -16,7 +16,7 @@ Kirigami.ScrollablePage {
         wideMode: true
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Mouse Actions"
+            Kirigami.FormData.label: i18n("Mouse Actions")
         }
         RowLayout {
             Kirigami.FormData.label: i18n("Hovering reveals highlight:")
@@ -24,7 +24,7 @@ Kirigami.ScrollablePage {
                 id: hoveringShowsHighlight
             }
             Common.InfoButton {
-                txt: "Show the active-workspace highlight while the pointer is over a workspace."
+                txt: i18n("Show the active-workspace highlight while the pointer is over a workspace.")
             }
         }
         RowLayout {
@@ -33,7 +33,7 @@ Kirigami.ScrollablePage {
                 id: hoveringShowsTooltip
             }
             Common.InfoButton {
-                txt: "Show workspace and window information when the pointer rests over the pager."
+                txt: i18n("Show workspace and window information when the pointer rests over the pager.")
             }
         }
         RowLayout {
@@ -42,13 +42,13 @@ Kirigami.ScrollablePage {
                 id: wrap
             }
             Common.InfoButton {
-                txt: "Continue from the first workspace after the last one, and vice versa."
+                txt: i18n("Continue from the first workspace after the last one, and vice versa.")
             }
         }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Animations"
+            Kirigami.FormData.label: i18n("Animations")
         }
         RowLayout {
             Kirigami.FormData.label: i18n("Animation Duration:")
@@ -60,19 +60,19 @@ Kirigami.ScrollablePage {
                 live: true
             }
             PC3.Label {
-                text: animTime.value +"ms"
+                text: i18n("%1 ms", animTime.value)
             }
             Common.InfoButton {
-                txt: "Set the duration of workspace indicator animations. Set to 0 to disable them."
+                txt: i18n("Set the duration of workspace indicator animations. Set to 0 to disable them.")
             }
         }
         RowLayout {
-            Kirigami.FormData.label: "Blink when attention required:"
+            Kirigami.FormData.label: i18n("Blink when attention required:")
             PC3.CheckBox {
                 id: blinkOnAttentionRequired
             }
             Common.InfoButton {
-                txt: "Blink the workspace indicator when one of its windows requests attention. Requires highlights."
+                txt: i18n("Blink the workspace indicator when one of its windows requests attention. Requires highlights.")
             }
         }
     }

@@ -355,8 +355,7 @@ int PagerModel::layoutRows() const
 QSize PagerModel::pagerItemSize() const
 {
     if (d->showOnlyCurrentScreen && d->screenGeometry.isValid()) {
-        constexpr int devicePixelRatio = 1;
-        return d->screenGeometry.size() * devicePixelRatio;
+        return d->screenGeometry.size();
     }
 
     return d->virtualGeometry.size();
@@ -604,11 +603,10 @@ void PagerModel::componentComplete()
 
 void PagerModel::computePagerItemSize()
 {
-    constexpr int devicePixelRatio = 1;
     QRect wholeScreen;
     for (const auto screens = qGuiApp->screens(); auto screen : screens) {
         const QRect geometry = screen->geometry();
-        wholeScreen |= QRect(geometry.topLeft(), geometry.size() * devicePixelRatio);
+        wholeScreen |= geometry;
     }
 
     if (d->virtualGeometry != wholeScreen) {

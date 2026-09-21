@@ -5,6 +5,7 @@ import org.kde.plasma.components as PC3
 import "../highlights/" as Highlights
 import "../Common/" as Common
 import "../Utils.js" as Utils
+import org.kde.plasma.core as PlasmaCore
 import org.kde.taskmanager as TaskManager
 
 Rectangle {

@@ -456,6 +456,10 @@ void PagerModel::moveWindow(const QModelIndex &index,
 
 void PagerModel::changePage(int page)
 {
+    if (page < 0) {
+        return;
+    }
+
     if (currentPage() == page) {
         if (d->showDesktop) {
             QDBusConnection::sessionBus().asyncCall(QDBusMessage::createMethodCall(QLatin1String("org.kde.plasmashell"),
@@ -465,10 +469,14 @@ void PagerModel::changePage(int page)
         }
     } else {
         if (d->pagerType == VirtualDesktops) {
-            d->virtualDesktopInfo->requestActivate(d->virtualDesktopInfo->desktopIds().at(page));
+            const auto desktopIds = d->virtualDesktopInfo->desktopIds();
+            if (page >= desktopIds.size()) {
+                return;
+            }
+            d->virtualDesktopInfo->requestActivate(desktopIds.at(page));
         } else {
             const QStringList &runningActivities = d->activityInfo->runningActivities();
-            if (page < runningActivities.length()) {
+            if (page < runningActivities.size()) {
                 KActivities::Controller activitiesController;
                 activitiesController.setCurrentActivity(runningActivities.at(page));
             }

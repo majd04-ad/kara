@@ -7,7 +7,7 @@ import "../Common/" as Common
 import org.kde.kquickcontrols as KQuickControls
 
 Kirigami.ScrollablePage {
-    title: i18nc("@title","General")
+    title: i18nc("@title", "Customization")
 
     property alias cfg_plasmaStyleColors: defHighlightColor.checked
     property alias cfg_plasmaTxtColors: defTextColor.checked
@@ -36,71 +36,86 @@ Kirigami.ScrollablePage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Indicator Colors"
+            Kirigami.FormData.label: i18n("Indicator Colors")
         }
         Common.ColorForm {
             id: defTextColor
-            Kirigami.FormData.label: "Default Inactive Content:"
+            Kirigami.FormData.label: i18n("Default Inactive Content:")
         }
         Common.ColorForm {
             id: defTextAltColor
-            Kirigami.FormData.label: "Default Active Content:"
+            Kirigami.FormData.label: i18n("Default Active Content:")
         }
-        PC3.CheckBox {
-            id: pillDontChangeOp
-            Kirigami.FormData.label: "Inactive pills don't change opacity:"
+        RowLayout {
+            Kirigami.FormData.label: i18n("Inactive pills don't change opacity:")
             visible: cfg_type == 0
+            PC3.CheckBox {
+                id: pillDontChangeOp
+            }
+            Common.InfoButton {
+                txt: i18n("Keep inactive pills at full opacity instead of fading them.")
+            }
         }
 
         // Highlight Settings
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Highlight Colors"
+            Kirigami.FormData.label: i18n("Highlight Colors")
             visible: cfg_type != 0
         }
         Common.ColorForm {
             id: defHighlightColor
             enabled: cfg_type > 0
-            Kirigami.FormData.label: "Default Highlight Color:"
+            Kirigami.FormData.label: i18n("Default Highlight Color:")
             visible: cfg_type != 0
         }
-        PC3.CheckBox {
-            id: semiHighlight
-            Kirigami.FormData.label: "Semi-Highlight desktop with open windows:"
+        RowLayout {
+            Kirigami.FormData.label: i18n("Semi-Highlight desktop with open windows:")
             visible: cfg_type != 0
+            PC3.CheckBox {
+                id: semiHighlight
+            }
+            Common.InfoButton {
+                txt: i18n("Apply a secondary highlight to inactive workspaces that contain windows.")
+            }
         }
         Common.ColorForm {
             id: defSemiHighlightColor
             enabled: cfg_type > 0 && semiHighlight.checked
-            Kirigami.FormData.label: "Default Semi-Highlight Color:"
+            Kirigami.FormData.label: i18n("Default Semi-Highlight Color:")
             onCheckedChanged: if(checked) semiHighlightOpacityFull.checked = false
             visible: cfg_type != 0
         }
-        PC3.CheckBox {
-            id: semiHighlightOpacityFull
-            enabled: !defSemiHighlightColor.checked
-            Kirigami.FormData.label: "Do not alter opacity of custom\nsemi-highlight colors:"
+        RowLayout {
+            Kirigami.FormData.label: i18n("Do not alter opacity of custom semi-highlight colors:")
             visible: cfg_type != 0
+            PC3.CheckBox {
+                id: semiHighlightOpacityFull
+                enabled: !defSemiHighlightColor.checked
+            }
+            Common.InfoButton {
+                txt: i18n("Preserve the alpha value of a custom semi-highlight color instead of applying the default opacity.")
+            }
         }
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Text Emphases"
+            Kirigami.FormData.label: i18n("Text Emphases")
             visible: cfg_type == 1
         }
         RowLayout {
-            Kirigami.FormData.label: "Active Title Emphasis:"
+            Kirigami.FormData.label: i18n("Active title emphasis:")
             visible: cfg_type == 1
             PC3.ToolButton {
                 id: activeBolden
                 checkable: true
                 icon.name: "format-text-bold"
-                PC3.ToolTip{ text: "Bold text" }
+                PC3.ToolTip{ text: i18n("Bold text") }
             }
             PC3.ToolButton {
                 id: activeItalicize
                 checkable: true
                 icon.name: "format-text-italic"
-                PC3.ToolTip{ text: "Italic text" }
+                PC3.ToolTip{ text: i18n("Italic text") }
             }
             PC3.SpinBox {
                 id: activeFontSize
@@ -109,19 +124,19 @@ Kirigami.ScrollablePage {
             }
         }
         RowLayout {
-            Kirigami.FormData.label: "Inactive Title Emphasis:"
+            Kirigami.FormData.label: i18n("Inactive title emphasis:")
             visible: cfg_type == 1
             PC3.ToolButton {
                 id: bolden
                 checkable: true
                 icon.name: "format-text-bold"
-                PC3.ToolTip{ text: "Bold text" }
+                PC3.ToolTip{ text: i18n("Bold text") }
             }
             PC3.ToolButton {
                 id: italicize
                 checkable: true
                 icon.name: "format-text-italic"
-                PC3.ToolTip{ text: "Italic text" }
+                PC3.ToolTip{ text: i18n("Italic text") }
             }
             PC3.SpinBox {
                 id: textSize
@@ -129,10 +144,15 @@ Kirigami.ScrollablePage {
                 to: 100
             }
         }
-        PC3.CheckBox {
+        RowLayout {
             visible: cfg_type == 1
-            id: asteriskCheck
-            Kirigami.FormData.label: "Add asterisk(*) for desktops with active window:"
+            Kirigami.FormData.label: i18n("Add asterisk (*) for desktops with active window:")
+            PC3.CheckBox {
+                id: asteriskCheck
+            }
+            Common.InfoButton {
+                txt: i18n("Append an asterisk to text labels for workspaces containing the active window.")
+            }
         }
     }
 }

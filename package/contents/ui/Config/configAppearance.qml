@@ -115,19 +115,29 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Show only workspaces with windows:"
         }
 
-        QQC2.ComboBox {
-            id: labelSource
-            visible: cfg_type == 1
+        RowLayout {
             Kirigami.FormData.label: "Label source:"
-            model: ["Desktop number","Desktop name",
-            "Custom template","Relative templates",
-            "Pre-defined labels","Roman numerals",
-            "Hindu-Arabic numerals","Chinese numerals"]
+            visible: cfg_type == 1
+            QQC2.ComboBox {
+                id: labelSource
+                model: ["Desktop number","Desktop name",
+                "Custom template","Relative templates",
+                "Pre-defined labels","Roman numerals",
+                "Hindu-Arabic numerals","Chinese numerals"]
+            }
+            Common.InfoButton {
+                txt: "Choose how workspace labels are generated."
+            }
         }
-        PC3.TextField {
-            id: template
-            visible: cfg_type == 1 && cfg_labelSource== 2
+        RowLayout {
             Kirigami.FormData.label: "Custom template:"
+            visible: cfg_type == 1 && cfg_labelSource == 2
+            PC3.TextField {
+                id: template
+            }
+            Common.InfoButton {
+                txt: "Use one template for every workspace. Replacements are listed below."
+            }
         }
         PC3.TextField {
             id: beforeTemplate
@@ -144,17 +154,27 @@ Kirigami.ScrollablePage {
             visible: cfg_type == 1 && cfg_labelSource == 3
             Kirigami.FormData.label: "After template:"
         }
-        PC3.TextArea {
-            id: customLabels
+        RowLayout {
             Kirigami.FormData.label: "Pre-defined labels:"
             visible: cfg_type == 1 && cfg_labelSource == 4
-            placeholderText: "One konqi\nTwo konqis\nThree konqis"
+            PC3.TextArea {
+                id: customLabels
+                placeholderText: "One konqi\nTwo konqis\nThree konqis"
+            }
+            Common.InfoButton {
+                txt: "Enter one label per workspace, in order. Missing or empty entries use the extra label."
+            }
         }
-        PC3.TextField {
-            id: extraCustomLabel
+        RowLayout {
             Kirigami.FormData.label: "Extra label:"
             visible: cfg_type == 1 && cfg_labelSource == 4
-            placeholderText: "D%d"
+            PC3.TextField {
+                id: extraCustomLabel
+                placeholderText: "D%d"
+            }
+            Common.InfoButton {
+                txt: "Fallback label for workspaces without a predefined label."
+            }
         }
         PC3.Label {
             visible: cfg_type == 1 && (cfg_labelSource == 4
@@ -202,10 +222,15 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Highlight Settings"
         }
-        QQC2.ComboBox {
-            id: hType
-            Kirigami.FormData.label: "Highlight Style:"
-            model: ["None","Line","Square","Full","Full with Line"]
+        RowLayout {
+            Kirigami.FormData.label: "Highlight style:"
+            QQC2.ComboBox {
+                id: hType
+                model: ["None","Line","Square","Full","Full with Line"]
+            }
+            Common.InfoButton {
+                txt: "Controls how the active workspace is highlighted."
+            }
         }
     }
 }

@@ -46,10 +46,15 @@ Kirigami.ScrollablePage {
             id: defTextAltColor
             Kirigami.FormData.label: "Default Active Content:"
         }
-        PC3.CheckBox {
-            id: pillDontChangeOp
+        RowLayout {
             Kirigami.FormData.label: "Inactive pills don't change opacity:"
             visible: cfg_type == 0
+            PC3.CheckBox {
+                id: pillDontChangeOp
+            }
+            Common.InfoButton {
+                txt: "Keep inactive pills at full opacity instead of fading them."
+            }
         }
 
         // Highlight Settings
@@ -64,10 +69,15 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Default Highlight Color:"
             visible: cfg_type != 0
         }
-        PC3.CheckBox {
-            id: semiHighlight
+        RowLayout {
             Kirigami.FormData.label: "Semi-Highlight desktop with open windows:"
             visible: cfg_type != 0
+            PC3.CheckBox {
+                id: semiHighlight
+            }
+            Common.InfoButton {
+                txt: "Apply a secondary highlight to inactive workspaces that contain windows."
+            }
         }
         Common.ColorForm {
             id: defSemiHighlightColor
@@ -76,11 +86,16 @@ Kirigami.ScrollablePage {
             onCheckedChanged: if(checked) semiHighlightOpacityFull.checked = false
             visible: cfg_type != 0
         }
-        PC3.CheckBox {
-            id: semiHighlightOpacityFull
-            enabled: !defSemiHighlightColor.checked
-            Kirigami.FormData.label: "Do not alter opacity of custom\nsemi-highlight colors:"
+        RowLayout {
+            Kirigami.FormData.label: "Do not alter opacity of custom semi-highlight colors:"
             visible: cfg_type != 0
+            PC3.CheckBox {
+                id: semiHighlightOpacityFull
+                enabled: !defSemiHighlightColor.checked
+            }
+            Common.InfoButton {
+                txt: "Preserve the alpha value of a custom semi-highlight color instead of applying the default opacity."
+            }
         }
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
@@ -129,10 +144,15 @@ Kirigami.ScrollablePage {
                 to: 100
             }
         }
-        PC3.CheckBox {
+        RowLayout {
             visible: cfg_type == 1
-            id: asteriskCheck
-            Kirigami.FormData.label: "Add asterisk(*) for desktops with active window:"
+            Kirigami.FormData.label: "Add asterisk (*) for desktops with active window:"
+            PC3.CheckBox {
+                id: asteriskCheck
+            }
+            Common.InfoButton {
+                txt: "Append an asterisk to text labels for workspaces containing the active window."
+            }
         }
     }
 }

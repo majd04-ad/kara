@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.components as PC3
+import "../Common/" as Common
 
 Kirigami.ScrollablePage {
     property alias cfg_wrapOn: wrap.checked
@@ -17,17 +18,32 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Mouse Actions"
         }
-        PC3.CheckBox {
+        RowLayout {
             Kirigami.FormData.label: i18n("Hovering reveals highlight:")
-            id: hoveringShowsHighlight
+            PC3.CheckBox {
+                id: hoveringShowsHighlight
+            }
+            Common.InfoButton {
+                txt: "Show the active-workspace highlight while the pointer is over a workspace."
+            }
         }
-        PC3.CheckBox {
+        RowLayout {
             Kirigami.FormData.label: i18n("Hovering reveals tooltip:")
-            id: hoveringShowsTooltip
+            PC3.CheckBox {
+                id: hoveringShowsTooltip
+            }
+            Common.InfoButton {
+                txt: "Show workspace and window information when the pointer rests over the pager."
+            }
         }
-        PC3.CheckBox {
-            id: wrap
+        RowLayout {
             Kirigami.FormData.label: i18n("Wraparound when scrolling:")
+            PC3.CheckBox {
+                id: wrap
+            }
+            Common.InfoButton {
+                txt: "Continue from the first workspace after the last one, and vice versa."
+            }
         }
 
         Kirigami.Separator {
@@ -46,11 +62,18 @@ Kirigami.ScrollablePage {
             PC3.Label {
                 text: animTime.value +"ms"
             }
+            Common.InfoButton {
+                txt: "Set the duration of workspace indicator animations. Set to 0 to disable them."
+            }
         }
-        PC3.CheckBox {
-            id: blinkOnAttentionRequired
-            Kirigami.FormData.label: "Blink when attention required:\n(This will not work when highlights are disabled)"
-            Kirigami.FormData.labelAlignment: Qt.AlignTop
+        RowLayout {
+            Kirigami.FormData.label: "Blink when attention required:"
+            PC3.CheckBox {
+                id: blinkOnAttentionRequired
+            }
+            Common.InfoButton {
+                txt: "Blink the workspace indicator when one of its windows requests attention. Requires highlights."
+            }
         }
     }
 }

@@ -30,43 +30,43 @@ function getChinese(pos) {
     return MANDARIN[pos]
 }
 function get_breadth() {
-    if(!is_vertical) {
-        if(plasmoid.location == PlasmaCore.Types.Floating || plasmoid.location == PlasmaCore.Types.Desktop) return 40
-            else return parent.height
+    if (!is_vertical) {
+        if (plasmoid.location == PlasmaCore.Types.Floating || plasmoid.location == PlasmaCore.Types.Desktop) return 40
+        else return parent.height
     } else {
-        if(plasmoid.location == PlasmaCore.Types.Floating || plasmoid.location == PlasmaCore.Types.Desktop) return 40
-            else return parent.width
+        if (plasmoid.location == PlasmaCore.Types.Floating || plasmoid.location == PlasmaCore.Types.Desktop) return 40
+        else return parent.width
     }
 }
-function getLabel(pos,curr) {
+function getLabel(pos, curr) {
     function replaceLabel(template) {
         return template
-            .replace("%name",virtualDesktopInfo.desktopNames[pos])
-            .replace("%d",pos+1)
-            .replace("%roman",Utils.getRoman(pos))
-            .replace("%hindu",Utils.getHindu(pos))
-            .replace("%chinese",Utils.getChinese(pos))
+            .replace("%name", virtualDesktopInfo.desktopNames[pos])
+            .replace("%d", pos + 1)
+            .replace("%roman", Utils.getRoman(pos))
+            .replace("%hindu", Utils.getHindu(pos))
+            .replace("%chinese", Utils.getChinese(pos))
     }
-    switch(cfg.labelSource) {
+    switch (cfg.labelSource) {
         case 1: return virtualDesktopInfo.desktopNames[pos]
         case 2: return replaceLabel(cfg.template)
-        case 3: return pos==curr ? replaceLabel(cfg.activeTemplate):(pos<curr?replaceLabel(cfg.beforeTemplate):replaceLabel(cfg.afterTemplate))
+        case 3: return pos == curr ? replaceLabel(cfg.activeTemplate) : (pos < curr ? replaceLabel(cfg.beforeTemplate) : replaceLabel(cfg.afterTemplate))
         case 4: return replaceLabel(root.customLabels[pos] || cfg.labelExtra)
         case 5: return getRoman(pos)
         case 6: return getHindu(pos)
         case 7: return getChinese(pos)
-        default: return pos+1
+        default: return pos + 1
 
     }
 }
 function getHighlightOpacity() {
-    if(cfg.highlightOnHover && hovered) return 0.4
-        else if(isActive) return 1
-            else if(cfg.slightlyHighlight && hasWindows) return 0.6
-                else return 0
+    if (cfg.highlightOnHover && hovered) return 0.4
+    else if (isActive) return 1
+    else if (cfg.slightlyHighlight && hasWindows) return 0.6
+    else return 0
 }
 function getRepSource() {
-    switch(cfg.type) {
+    switch (cfg.type) {
         case 1: return "representations/TextStyle.qml"
         case 2: return "representations/IconStyle.qml"
         default: return "representations/PillStyle.qml"

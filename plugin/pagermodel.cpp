@@ -205,9 +205,17 @@ QVariant PagerModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole) {
         if (d->pagerType == VirtualDesktops) {
-            return d->virtualDesktopInfo->desktopNames().at(index.row());
+            const auto desktopNames = d->virtualDesktopInfo->desktopNames();
+            if (index.row() >= desktopNames.size()) {
+                return QVariant();
+            }
+            return desktopNames.at(index.row());
         } else {
-            QString activityId = d->activityInfo->runningActivities().at(index.row());
+            const auto runningActivities = d->activityInfo->runningActivities();
+            if (index.row() >= runningActivities.size()) {
+                return QVariant();
+            }
+            const QString &activityId = runningActivities.at(index.row());
             return d->activityInfo->activityName(activityId);
         }
     } else if (role == TasksModel) {
@@ -369,8 +377,11 @@ void PagerModel::refresh()
 
     d->refreshDataSource();
 
+    const auto desktopIds = d->virtualDesktopInfo->desktopIds();
+    const auto runningActivities = d->activityInfo->runningActivities();
+
     int modelCount = d->windowModels.count();
-    const int modelsNeeded = ((d->pagerType == VirtualDesktops) ? d->virtualDesktopInfo->numberOfDesktops() : d->activityInfo->numberOfRunningActivities());
+    const int modelsNeeded = d->pagerType == VirtualDesktops ? desktopIds.size() : runningActivities.size();
 
     if (modelCount > modelsNeeded) {
         while (modelCount != modelsNeeded) {
@@ -394,14 +405,13 @@ void PagerModel::refresh()
         int virtualDesktop = 0;
 
         for (auto windowModel : std::as_const(d->windowModels)) {
-            windowModel->setVirtualDesktop(d->virtualDesktopInfo->desktopIds().at(virtualDesktop));
+            windowModel->setVirtualDesktop(desktopIds.at(virtualDesktop));
             ++virtualDesktop;
 
             windowModel->setActivity(d->activityInfo->currentActivity());
         }
     } else {
         int activityIndex = 0;
-        const QStringList &runningActivities = d->activityInfo->runningActivities();
 
         for (auto windowModel : std::as_const(d->windowModels)) {
             windowModel->setVirtualDesktop();

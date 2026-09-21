@@ -443,7 +443,20 @@ void PagerModel::moveWindow(const QModelIndex &index,
                             qreal widthScaleFactor,
                             qreal heightScaleFactor)
 {
-    const auto taskModelIndex = static_cast<const WindowModel *>(index.model())->mapToSource(index);
+    if (!index.isValid()) {
+        return;
+    }
+
+    const auto *windowModel = qobject_cast<const WindowModel *>(index.model());
+    if (!windowModel) {
+        return;
+    }
+
+    const auto taskModelIndex = windowModel->mapToSource(index);
+    if (!taskModelIndex.isValid()) {
+        return;
+    }
+
     const bool isOnAllDesktops = index.data(TaskManager::AbstractTasksModel::IsOnAllVirtualDesktops).toBool();
 
     if (d->pagerType == VirtualDesktops) {

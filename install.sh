@@ -31,8 +31,8 @@ cat > "$ENV_FILE" << 'EOF'
 export PATH="$HOME/.local/bin:$PATH"
 export XDG_DATA_DIRS="$HOME/.local/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export XDG_CONFIG_DIRS="$HOME/.local/etc/xdg:${XDG_CONFIG_DIRS:-/etc/xdg}"
-export LD_LIBRARY_PATH="$HOME/.local/lib:${LD_LIBRARY_PATH}"
-export QML2_IMPORT_PATH="$HOME/.local/lib/qml:${QML2_IMPORT_PATH}"
+export LD_LIBRARY_PATH="$HOME/.local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export QML2_IMPORT_PATH="$HOME/.local/lib/qml${QML2_IMPORT_PATH:+:$QML2_IMPORT_PATH}"
 EOF
 
 # Make it executable

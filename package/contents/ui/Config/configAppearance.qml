@@ -121,7 +121,7 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: "Label source:"
             model: ["Desktop number","Desktop Name",
             "Custom Template","Before-After Templates",
-            "Pre-defined Templates","Roman Numerals",
+            "Pre-defined Labels","Roman Numerals",
             "Hindu-Arabic Numerals","Chinese Numerals"]
         }
         PC3.TextField {

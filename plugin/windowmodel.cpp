@@ -61,12 +61,9 @@ QVariant WindowModel::data(const QModelIndex &index, int role) const
     if (role == AbstractTasksModel::Geometry) {
         QRect windowGeo = TaskFilterProxyModel::data(index, role).toRect();
         const QRect clampingRect(QPoint(0, 0), d->pagerModel->pagerItemSize());
+        const QPoint origin = d->pagerModel->pagerGeometry().topLeft();
 
-        if (filterByScreen() && screenGeometry().isValid()) {
-            const QPoint &screenOffset = screenGeometry().topLeft();
-
-            windowGeo.translate(0 - screenOffset.x(), 0 - screenOffset.y());
-        }
+        windowGeo.translate(-origin.x(), -origin.y());
 
         // Restrict to desktop/screen rect.
         return windowGeo.intersected(clampingRect);

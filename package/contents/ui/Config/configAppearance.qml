@@ -226,7 +226,7 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: i18n("Highlight style:")
             QQC2.ComboBox {
                 id: hType
-                model: [i18n("None"), i18n("Line"), i18n("Square"), i18n("Full"), i18n("Full with Line")]
+                model: [i18n("None"), i18n("Line"), i18n("Square"), i18n("Full"), i18n("Full with Line"), i18n("Canvas"), i18n("Squiggly circle")]
             }
             Common.InfoButton {
                 txt: i18n("Controls how the active workspace is highlighted.")

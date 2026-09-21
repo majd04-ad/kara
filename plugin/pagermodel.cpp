@@ -445,12 +445,8 @@ void PagerModel::refresh()
 }
 
 void PagerModel::moveWindow(const QModelIndex &index,
-                            double x,
-                            double y,
                             const QVariant &targetItemId,
-                            const QVariant &sourceItemId,
-                            qreal widthScaleFactor,
-                            qreal heightScaleFactor)
+                            const QVariant &sourceItemId)
 {
     if (!index.isValid()) {
         return;

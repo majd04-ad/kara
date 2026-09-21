@@ -10,7 +10,7 @@ Kirigami.ScrollablePage {
     property alias cfg_blinkOnAttentionRequired: blinkOnAttentionRequired.checked
     property alias cfg_highlightOnHover: hoveringShowsHighlight.checked
     property alias cfg_tooltipOnHover: hoveringShowsTooltip.checked
-    title: i18nc("@title","General")
+    title: i18nc("@title", "Behavior")
     Kirigami.FormLayout {
         anchors.fill: parent
         wideMode: true

@@ -7,7 +7,7 @@ import "../Common/" as Common
 import org.kde.kquickcontrols as KQuickControls
 
 Kirigami.ScrollablePage {
-    title: i18nc("@title","General")
+    title: i18nc("@title", "Appearance")
 
     //Types-----------------------------------
     property alias cfg_type: type.style

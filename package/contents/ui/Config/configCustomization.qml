@@ -7,7 +7,7 @@ import "../Common/" as Common
 import org.kde.kquickcontrols as KQuickControls
 
 Kirigami.ScrollablePage {
-    title: i18nc("@title","General")
+    title: i18nc("@title", "Customization")
 
     property alias cfg_plasmaStyleColors: defHighlightColor.checked
     property alias cfg_plasmaTxtColors: defTextColor.checked

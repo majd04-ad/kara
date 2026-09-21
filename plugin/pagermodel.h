@@ -66,6 +66,7 @@ public:
 
     int layoutRows() const;
     QSize pagerItemSize() const;
+    QRect pagerGeometry() const;
 
     int stackingOrder(const QModelIndex &window) const;
 

@@ -362,6 +362,16 @@ QSize PagerModel::pagerItemSize() const
     return d->virtualGeometry.size();
 }
 
+QRect PagerModel::pagerGeometry() const
+{
+    if (d->showOnlyCurrentScreen && d->screenGeometry.isValid())
+    {
+        return d->screenGeometry;
+    }
+
+    return d->virtualGeometry;
+}
+
 int PagerModel::stackingOrder(const QModelIndex &index) const
 {
     return index.data(TaskManager::AbstractTasksModel::StackingOrder).toInt();

@@ -25,13 +25,15 @@ class PagerModel : public QAbstractListModel, public QQmlParserStatus
     Q_PROPERTY(QSize pagerItemSize READ pagerItemSize NOTIFY pagerItemSizeChanged)
 
 public:
-    enum PagerType {
+    enum PagerType
+    {
         VirtualDesktops = 0,
         Activities,
     };
     Q_ENUM(PagerType)
 
-    enum AdditionalRoles {
+    enum AdditionalRoles
+    {
         TasksModel = Qt::UserRole + 1,
     };
     Q_ENUM(AdditionalRoles)
@@ -66,18 +68,15 @@ public:
 
     int layoutRows() const;
     QSize pagerItemSize() const;
+    QRect pagerGeometry() const;
 
     int stackingOrder(const QModelIndex &window) const;
 
     Q_INVOKABLE void refresh();
 
     Q_INVOKABLE void moveWindow(const QModelIndex &window,
-                                double x,
-                                double y,
                                 const QVariant &targetItemId,
-                                const QVariant &sourceItemId,
-                                qreal widthScaleFactor,
-                                qreal heightScaleFactor);
+                                const QVariant &sourceItemId);
     Q_INVOKABLE void changePage(int page);
     Q_INVOKABLE void drop(QMimeData *mimeData, int modifiers, const QVariant &itemId);
     Q_INVOKABLE void addDesktop();

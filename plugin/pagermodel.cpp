@@ -205,9 +205,17 @@ QVariant PagerModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole) {
         if (d->pagerType == VirtualDesktops) {
-            return d->virtualDesktopInfo->desktopNames().at(index.row());
+            const auto desktopNames = d->virtualDesktopInfo->desktopNames();
+            if (index.row() >= desktopNames.size()) {
+                return QVariant();
+            }
+            return desktopNames.at(index.row());
         } else {
-            QString activityId = d->activityInfo->runningActivities().at(index.row());
+            const auto runningActivities = d->activityInfo->runningActivities();
+            if (index.row() >= runningActivities.size()) {
+                return QVariant();
+            }
+            const QString &activityId = runningActivities.at(index.row());
             return d->activityInfo->activityName(activityId);
         }
     } else if (role == TasksModel) {
@@ -347,11 +355,20 @@ int PagerModel::layoutRows() const
 QSize PagerModel::pagerItemSize() const
 {
     if (d->showOnlyCurrentScreen && d->screenGeometry.isValid()) {
-        constexpr int devicePixelRatio = 1;
-        return d->screenGeometry.size() * devicePixelRatio;
+        return d->screenGeometry.size();
     }
 
     return d->virtualGeometry.size();
+}
+
+QRect PagerModel::pagerGeometry() const
+{
+    if (d->showOnlyCurrentScreen && d->screenGeometry.isValid())
+    {
+        return d->screenGeometry;
+    }
+
+    return d->virtualGeometry;
 }
 
 int PagerModel::stackingOrder(const QModelIndex &index) const
@@ -369,8 +386,11 @@ void PagerModel::refresh()
 
     d->refreshDataSource();
 
+    const auto desktopIds = d->virtualDesktopInfo->desktopIds();
+    const auto runningActivities = d->activityInfo->runningActivities();
+
     int modelCount = d->windowModels.count();
-    const int modelsNeeded = ((d->pagerType == VirtualDesktops) ? d->virtualDesktopInfo->numberOfDesktops() : d->activityInfo->numberOfRunningActivities());
+    const int modelsNeeded = d->pagerType == VirtualDesktops ? desktopIds.size() : runningActivities.size();
 
     if (modelCount > modelsNeeded) {
         while (modelCount != modelsNeeded) {
@@ -394,14 +414,13 @@ void PagerModel::refresh()
         int virtualDesktop = 0;
 
         for (auto windowModel : std::as_const(d->windowModels)) {
-            windowModel->setVirtualDesktop(d->virtualDesktopInfo->desktopIds().at(virtualDesktop));
+            windowModel->setVirtualDesktop(desktopIds.at(virtualDesktop));
             ++virtualDesktop;
 
             windowModel->setActivity(d->activityInfo->currentActivity());
         }
     } else {
         int activityIndex = 0;
-        const QStringList &runningActivities = d->activityInfo->runningActivities();
 
         for (auto windowModel : std::as_const(d->windowModels)) {
             windowModel->setVirtualDesktop();
@@ -426,14 +445,23 @@ void PagerModel::refresh()
 }
 
 void PagerModel::moveWindow(const QModelIndex &index,
-                            double x,
-                            double y,
                             const QVariant &targetItemId,
-                            const QVariant &sourceItemId,
-                            qreal widthScaleFactor,
-                            qreal heightScaleFactor)
+                            const QVariant &sourceItemId)
 {
-    const auto taskModelIndex = static_cast<const WindowModel *>(index.model())->mapToSource(index);
+    if (!index.isValid()) {
+        return;
+    }
+
+    const auto *windowModel = qobject_cast<const WindowModel *>(index.model());
+    if (!windowModel) {
+        return;
+    }
+
+    const auto taskModelIndex = windowModel->mapToSource(index);
+    if (!taskModelIndex.isValid()) {
+        return;
+    }
+
     const bool isOnAllDesktops = index.data(TaskManager::AbstractTasksModel::IsOnAllVirtualDesktops).toBool();
 
     if (d->pagerType == VirtualDesktops) {
@@ -456,6 +484,10 @@ void PagerModel::moveWindow(const QModelIndex &index,
 
 void PagerModel::changePage(int page)
 {
+    if (page < 0) {
+        return;
+    }
+
     if (currentPage() == page) {
         if (d->showDesktop) {
             QDBusConnection::sessionBus().asyncCall(QDBusMessage::createMethodCall(QLatin1String("org.kde.plasmashell"),
@@ -465,10 +497,14 @@ void PagerModel::changePage(int page)
         }
     } else {
         if (d->pagerType == VirtualDesktops) {
-            d->virtualDesktopInfo->requestActivate(d->virtualDesktopInfo->desktopIds().at(page));
+            const auto desktopIds = d->virtualDesktopInfo->desktopIds();
+            if (page >= desktopIds.size()) {
+                return;
+            }
+            d->virtualDesktopInfo->requestActivate(desktopIds.at(page));
         } else {
             const QStringList &runningActivities = d->activityInfo->runningActivities();
-            if (page < runningActivities.length()) {
+            if (page < runningActivities.size()) {
                 KActivities::Controller activitiesController;
                 activitiesController.setCurrentActivity(runningActivities.at(page));
             }
@@ -563,11 +599,10 @@ void PagerModel::componentComplete()
 
 void PagerModel::computePagerItemSize()
 {
-    constexpr int devicePixelRatio = 1;
     QRect wholeScreen;
     for (const auto screens = qGuiApp->screens(); auto screen : screens) {
         const QRect geometry = screen->geometry();
-        wholeScreen |= QRect(geometry.topLeft(), geometry.size() * devicePixelRatio);
+        wholeScreen |= geometry;
     }
 
     if (d->virtualGeometry != wholeScreen) {

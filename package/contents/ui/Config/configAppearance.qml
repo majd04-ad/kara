@@ -119,34 +119,34 @@ Kirigami.ScrollablePage {
             id: labelSource
             visible: cfg_type == 1
             Kirigami.FormData.label: "Label source:"
-            model: ["Desktop number","Desktop Name",
-            "Custom Template","Before-After Templates",
-            "Pre-defined Labels","Roman Numerals",
-            "Hindu-Arabic Numerals","Chinese Numerals"]
+            model: ["Desktop number","Desktop name",
+            "Custom template","Relative templates",
+            "Pre-defined labels","Roman numerals",
+            "Hindu-Arabic numerals","Chinese numerals"]
         }
         PC3.TextField {
             id: template
             visible: cfg_type == 1 && cfg_labelSource== 2
-            Kirigami.FormData.label: "Custom Template:"
+            Kirigami.FormData.label: "Custom template:"
         }
         PC3.TextField {
             id: beforeTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "Before Active Template:"
+            Kirigami.FormData.label: "Before template:"
         }
         PC3.TextField {
             id: activeTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "Active Template:"
+            Kirigami.FormData.label: "Active template:"
         }
         PC3.TextField {
             id: afterTemplate
             visible: cfg_type == 1 && cfg_labelSource == 3
-            Kirigami.FormData.label: "After Active Template:"
+            Kirigami.FormData.label: "After template:"
         }
         PC3.TextArea {
             id: customLabels
-            Kirigami.FormData.label: "Custom labels:"
+            Kirigami.FormData.label: "Pre-defined labels:"
             visible: cfg_type == 1 && cfg_labelSource == 4
             placeholderText: "One konqi\nTwo konqis\nThree konqis"
         }

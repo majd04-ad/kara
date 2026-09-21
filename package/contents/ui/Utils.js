@@ -51,7 +51,7 @@ function getLabel(pos,curr) {
         case 1: return virtualDesktopInfo.desktopNames[pos]
         case 2: return replaceLabel(cfg.template)
         case 3: return pos==curr ? replaceLabel(cfg.activeTemplate):(pos<curr?replaceLabel(cfg.beforeTemplate):replaceLabel(cfg.afterTemplate))
-        case 4: return replaceLabel(root.customLabels[pos] ?? cfg.labelExtra)
+        case 4: return replaceLabel(root.customLabels[pos] || cfg.labelExtra)
         case 5: return getRoman(pos)
         case 6: return getHindu(pos)
         case 7: return getChinese(pos)

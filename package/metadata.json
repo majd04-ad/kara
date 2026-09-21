@@ -12,7 +12,9 @@
         "Description": "Desktop switching utility.",
         "EnabledByDefault": false,
         "FormFactors": [
-            "desktop"
+            "desktop",
+            "horizontal",
+            "vertical"
         ],
         "Icon": "virtual-desktops",
         "Id": "org.dhruv8sh.kara",
